@@ -33,12 +33,6 @@
             controls: false
           }
         },
-        isPerson: {
-          get: function () {
-            return this.attr('content.value') &&
-              this.attr('content.type') === 'person';
-          }
-        },
         actionBtnText: {
           get: function () {
             return this.attr('comment') ? 'Save' : 'Done';
@@ -46,10 +40,11 @@
         }
       },
       content: {
+        contextScope: {},
         fields: [],
-        title: null,
+        title: '',
         value: null,
-        type: null
+        options: []
       },
       caIds: {},
       isEmpty: true,

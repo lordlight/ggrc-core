@@ -5,9 +5,9 @@
 {{#state.open}}
 <div class="simple-modal__overlay">
     <div class="simple-modal {{extraCssClass}}">
-        <div class="simple-modal__header flex-box flex-row">
-            <div class="simple-modal__header-text flex-size-1">{{modalTitle}}</div>
-            <button class="btn btn-small btn-icon" can-click="hide">
+        <div class="simple-modal__header">
+            <div class="simple-modal__header-text">{{modalTitle}}</div>
+            <button class="btn btn-small btn-icon" ($click)="hide">
                 <i class="fa fa-times black"></i>
             </button>
         </div>

@@ -32,6 +32,79 @@ $grid-data-header-height: 66px;
   background: $white;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 
+  &__toolbar {
+    display: flex;
+    flex-direction: row-reverse;
+    box-sizing: border-box;
+  }
+
+  &__toolbar-item {
+    margin: 0 0 0 8px;
+  }
+
+  &__body {
+    box-sizing: border-box;
+    padding: 16px;
+    overflow: auto;
+    background: $white;
+    margin: 0;
+  }
+
+  &__section {
+    margin: 0 0 16px;
+
+    &:last-child {
+      margin: 0;
+    }
+    // Temporary Solution - should be removed
+    h6 {
+      display: none;
+    }
+  }
+
+  &__section-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    line-height: 28px;
+    text-transform: uppercase;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    background: $white;
+    height: $simple-modal-header-height;
+    padding: 8px;
+    position: relative;
+    margin: 0;
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__header-text {
+    padding: 0 8px;
+    line-height: 28px;
+    font-size: 16px;
+    font-weight: normal;
+    color: $infoWidgetHeader;
+  }
+
+  &__footer {
+    border-top: 1px solid $border-color;
+    box-sizing: border-box;
+    padding: 8px;
+    margin: 0;
+    overflow: hidden;
+    background: $white;
+  }
+
   /* Specific Styles for Prior Responses Modal Window */
   &.related-assessments {
     width: 85%;
@@ -56,50 +129,4 @@ $grid-data-header-height: 66px;
     }
   }
 
-  &__body {
-    box-sizing: border-box;
-    padding: 16px;
-    overflow: auto;
-    background: $white;
-    margin: 0;
-  }
-
-  &__controls {
-    > * {
-      display: block;
-      margin: 16px 0 0;
-
-      &:first-child {
-        margin: 0;
-      }
-    }
-  }
-
-  .simple-modal__header {
-    background: $white;
-    box-sizing: border-box;
-    height: $simple-modal-header-height;
-    padding: 8px;
-    position: relative;
-    margin: 0;
-    border-bottom: 1px solid $border-color;
-    align-items: center;
-
-    .simple-modal__header-text {
-      padding: 0 8px;
-      line-height: 26px;
-      font-size: 16px;
-      font-weight: normal;
-      color: $infoWidgetHeader;
-    }
-  }
-
-  .simple-modal__footer {
-    border-top: 1px solid $border-color;
-    box-sizing: border-box;
-    padding: 8px 16px;
-    margin: 0;
-    overflow: hidden;
-    background: $white;
-  }
 }
