@@ -17,6 +17,7 @@
   <div class="datepicker__input-wrapper">
     <i class="fa fa-calendar"></i>
     <input
+      {{#if disabled}}disabled{{/if}}
       placeholder="{{MOMENT_DISPLAY_FMT}}"
       type="text"
       class="datepicker__input date"

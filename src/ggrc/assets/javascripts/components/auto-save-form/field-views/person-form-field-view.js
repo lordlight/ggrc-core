@@ -12,7 +12,8 @@
       '/components/auto-save-form/field-views/person-form-field-view.mustache'
     ),
     viewModel: {
-      value: null
+      value: null,
+      disabled: false
     }
   });
 })(window.can, window.GGRC);

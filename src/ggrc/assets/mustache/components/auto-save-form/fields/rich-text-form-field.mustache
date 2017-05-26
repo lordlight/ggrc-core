@@ -4,6 +4,7 @@
 }}
 
 <div class="input-wrapper {{#focused}}focused{{/focused}}">
-  <rich-text text="_value"
+  <rich-text {(text)}="_value"
+             {disabled}="disabled"
              placeholder="{{placeholder}}"></rich-text>
 </div>

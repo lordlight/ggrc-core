@@ -6,13 +6,14 @@
 <div class="input-wrapper">
   {{#if _value}}
     <div class="person-info-wrapper">
-      <a href="#" can-click="unsetPerson">
+      <a href="#" ($click)="unsetPerson">
         <i class="fa fa-fw fa-times" aria-hidden="true"></i>
       </a>
-      <person-info person-obj="_value"></person-info>
+      <person-info {person-obj}="_value"></person-info>
     </div>
   {{else}}
     <autocomplete
+        {{#if disabled}}disabled{{/if}}
       search-items-type="Person"
       can-item-selected="setPerson"
       placeholder="Select person"

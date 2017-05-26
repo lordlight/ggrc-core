@@ -12,16 +12,22 @@
       '/components/auto-save-form/auto-save-form-field.mustache'
     ),
     viewModel: {
+      define: {
+        disabled: {
+          type: 'htmlbool'
+        }
+      },
       type: null,
       value: null,
       fieldId: null,
       placeholder: '',
       options: [],
-      fieldValueChanged: function (e) {
+      fieldValueChanged: function (e, scope) {
         this.dispatch({
           type: 'valueChanged',
           fieldId: e.fieldId,
-          value: e.value
+          value: e.value,
+          field: scope
         });
       }
     }
