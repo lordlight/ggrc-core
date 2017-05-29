@@ -66,6 +66,7 @@
       },
       caIds: null,
       isSaving: false,
+      contextScope: {},
       isEmpty: true,
       clean: false,
       comment: {
@@ -116,6 +117,12 @@
 
         comment.attr(this.getCommentData())
           .save()
+          .done(function () {
+            if (this.attr('contextScope')) {
+              this.attr('contextScope.errorsMap.comment', false);
+              this.attr('contextScope.validation.valid', !this.attr('contextScope.errorsMap.evidence'));
+            }
+          }.bind(this))
           .always(function () {
             this.attr('clean', true);
             this.attr('isSaving', false);
