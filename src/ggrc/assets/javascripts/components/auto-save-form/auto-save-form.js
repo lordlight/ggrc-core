@@ -24,6 +24,18 @@
             return can.Map.keys(this.attr('fieldsToSave') || {}).length;
           }
         },
+        hasValidationErrors: {
+          type: 'boolean',
+          get: function () {
+            return this.attr('fields')
+              .filter(function (field) {
+                var isEmpty = field.attr('validation.mandatory') &&
+                  field.attr('validation.empty');
+                var isNotValid = !field.attr('validation.valid');
+                return isEmpty || isNotValid;
+              }).length;
+          }
+        },
         evidenceAmount: {
           type: 'number',
           set: function (newValue, setValue) {

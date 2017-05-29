@@ -11,10 +11,10 @@
     '/components/object-state-toolbar/object-state-toolbar.mustache');
   // Helper function - might be some util/helpers method
   function checkIsCurrentUserVerifier(verifiers) {
-    var isVerifier = verifiers.filter(function (verifier) {
-      return verifier.email === GGRC.current_user.email;
-    });
-    return !!(isVerifier.length);
+    return verifiers
+      .filter(function (verifier) {
+        return verifier.email === GGRC.current_user.email;
+      }).length;
   }
   /**
    * Object State Toolbar Component allowing Object state modification
@@ -26,16 +26,14 @@
       define: {
         isCurrentUserVerifier: {
           type: 'boolean',
-          value: false,
           get: function () {
             return checkIsCurrentUserVerifier(this.attr('verifiers'));
           }
         },
         hasVerifiers: {
           type: 'boolean',
-          value: false,
           get: function () {
-            return !!(this.attr('verifiers').length);
+            return this.attr('verifiers').length;
           }
         }
       },
@@ -58,7 +56,8 @@
         return this.attr('instance.status') === 'Ready for Review';
       },
       hasErrors: function () {
-        return this.attr('instance.preconditions_failed');
+        return this.attr('instance.preconditions_failed') ||
+          this.attr('instance.hasValidationErrors');
       },
       changeState: function (newState, undo) {
         this.dispatch({
