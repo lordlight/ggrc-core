@@ -150,7 +150,8 @@
         if (type === 'dropdown') {
           valueData.validationConfig = {};
           options.forEach(function (item, index) {
-            valueData.validationConfig[item] = Number(optionsRequirements[index]);
+            valueData.validationConfig[item] =
+              Number(optionsRequirements[index]);
           });
         }
         return valueData;
