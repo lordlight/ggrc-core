@@ -6,7 +6,7 @@
 <div class="fields-wrapper flex-box flex-row">
   {{#each fields}}
     <div class="field-wrapper flex-size-1">
-        <form-validation-icon {validation}="validation"></form-validation-icon>
+      <form-validation-icon {validation}="validation"></form-validation-icon>
       <div class="field__title form-field__title">
         <label class="field__title-text" for="form-field-{{id}}">{{title}}</label>
         {{#if helptext}}
@@ -16,11 +16,11 @@
       {{#if editMode}}
         <auto-save-form-field
           {type}="type"
-          {value}="value"
+          {(value)}="value"
           {field-id}="id"
           {placeholder}="placeholder"
           {options}="options"
-          (value-changed)="fieldValueChanged(%event)"
+          (value-changed)="fieldValueChanged(%event, %context)"
         ></auto-save-form-field>
       {{else}}
         <auto-save-form-field-view
@@ -30,7 +30,7 @@
       {{/if}}
       {{#unless validation.valid}}
         <div class="form-field__validation-hint-placeholder">
-            <button class="btn btn-small btn-link btn-link-nopadding" ($click)="showRequiredInfoModal(%context)">Add required info</button>
+            <button class="btn btn-small btn-link btn-link-nopadding" ($click)="showRequiredInfoModal(%event, %context)">Add required info</button>
         </div>
       {{/unless}}
     </div>
