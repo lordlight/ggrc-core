@@ -26,7 +26,6 @@
       define: {
         validation: {},
         iconCls: {
-          value: icons.noValidation,
           get: function () {
             var icon = icons.noValidation;
 
