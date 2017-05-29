@@ -26,7 +26,6 @@
         },
         evidenceAmount: {
           type: 'number',
-          value: 0,
           set: function (newValue, setValue) {
             setValue(newValue);
             this.updateEvidenceValidation();

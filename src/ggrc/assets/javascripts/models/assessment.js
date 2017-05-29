@@ -195,6 +195,11 @@
         oldModel.attr(attributes) :
           new this(attributes);
 
+      // This is a temporary solution
+      if (attributes.documents) {
+        model.attr('documents', attributes.documents, true);
+      }
+
       if (attributes.assignees) {
         this.leaveUniqueAssignees(model, attributes, 'Verifier');
         this.leaveUniqueAssignees(model, attributes, 'Assessor');
