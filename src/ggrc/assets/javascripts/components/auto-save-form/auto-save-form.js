@@ -20,15 +20,49 @@
         },
         isDirty: {
           type: 'boolean',
-          value: false,
           get: function () {
-            var modifiedFields = this.attr('fieldsToSave');
-            if (!modifiedFields) {
-              return false;
-            }
-            return Object.keys(modifiedFields.attr()).length;
+            return can.Map.keys(this.attr('fieldsToSave') || {}).length;
+          }
+        },
+        evidenceAmount: {
+          type: 'number',
+          value: 0,
+          set: function (newValue, setValue) {
+            setValue(newValue);
+            this.updateEvidenceValidation();
+          }
+        },
+        isEvidenceRequired: {
+          get: function () {
+            return this.hasMissingEvidence();
           }
         }
+      },
+      updateEvidenceValidation: function () {
+        var isEvidenceRequired = this.attr('isEvidenceRequired');
+        this.attr('fields')
+          .filter(function (item) {
+            return item.attr('type') === 'dropdown';
+          })
+          .each(function (item) {
+            var isCommentRequired;
+            if ((item.attr('validationConfig')[item.attr('value')] === 2 ||
+                item.attr('validationConfig')[item.attr('value')] === 3)) {
+              isCommentRequired = item.attr('errorsMap.comment');
+              item.attr('errorsMap.evidence', isEvidenceRequired);
+              item.attr('validation.valid',
+                !isEvidenceRequired && !isCommentRequired);
+            }
+          });
+      },
+      hasMissingEvidence: function () {
+        var optionsWithEvidence = this.attr('fields')
+              .filter(function (item) {
+                return item.attr('type') === 'dropdown' &&
+                  (item.attr('validationConfig')[item.attr('value')] === 2 ||
+                item.attr('validationConfig')[item.attr('value')] === 3);
+              }).length;
+        return optionsWithEvidence > this.attr('evidenceAmount');
       },
       editMode: false,
       saving: false,
@@ -47,10 +81,57 @@
       unsubscribe: function () {
         this.attr('triggerSaveCbs').remove(this._save);
       },
-      fieldValueChanged: function (e) {
+      performValidation: function (field, value) {
+        var isEvidenceRequired = this.attr('isEvidenceRequired');
+        this.updateEvidenceValidation();
+        field.attr('validation.empty', !(value));
+        if (field.attr('type') === 'dropdown') {
+          if (!field.attr('validationConfig')[value]) {
+            field.attr('errorsMap.evidence', false);
+            field.attr('errorsMap.comment', false);
+            field.attr('validation.valid', true);
+          }
+          if (field.attr('validationConfig')[value] === 0) {
+            field.attr('errorsMap.evidence', false);
+            field.attr('errorsMap.comment', false);
+            field.attr('validation.valid', true);
+          }
+          if (field.attr('validationConfig')[value] === 2) {
+            field.attr('errorsMap.evidence', isEvidenceRequired);
+            field.attr('errorsMap.comment', false);
+            field.attr('validation.valid', !isEvidenceRequired);
+            if (isEvidenceRequired) {
+              this.dispatch({
+                type: 'validationChanged',
+                field: field
+              });
+            }
+          }
+          if (field.attr('validationConfig')[value] === 1) {
+            field.attr('errorsMap.evidence', false);
+            field.attr('errorsMap.comment', true);
+            field.attr('validation.valid', false);
+            this.dispatch({
+              type: 'validationChanged',
+              field: field
+            });
+          }
+          if (field.attr('validationConfig')[value] === 3) {
+            field.attr('errorsMap.evidence', isEvidenceRequired);
+            field.attr('errorsMap.comment', true);
+            field.attr('validation.valid', false);
+            this.dispatch({
+              type: 'validationChanged',
+              field: field
+            });
+          }
+        }
+      },
+      fieldValueChanged: function (e, field) {
+        field.attr('value', e.value);
         this.fieldsToSave.attr(e.fieldId, e.value);
         this.attr('fieldsToSaveAvailable', true);
-
+        this.performValidation(field, e.value);
         this.triggerAutoSave();
       },
       save: function () {
