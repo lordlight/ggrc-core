@@ -103,6 +103,8 @@
       return definitions.map(function (def) {
         var valueData = false;
         var id = def.id;
+        var options = (def.multi_choice_options || '').split(',');
+        var optionsRequirements = (def.multi_choice_mandatory || '').split(',');
         var type = getCustomAttributeType(def.attribute_type);
         var stub = {
           id: null,
@@ -143,7 +145,15 @@
           }
         });
 
-        return valueData || stub;
+        valueData = valueData || stub;
+
+        if (type === 'dropdown') {
+          valueData.validationConfig = {};
+          options.forEach(function (item, index) {
+            valueData.validationConfig[item] = Number(optionsRequirements[index]);
+          });
+        }
+        return valueData;
       });
     }
 
@@ -191,8 +201,9 @@
             typeof options === 'string' ?
               options.split(',') : [],
             helptext: attr.def.helptext,
-            validation: attr.validation,
-            errorsMap: attr.errorsMap,
+            validation: attr.validation.attr(),
+            validationConfig: attr.validationConfig,
+            errorsMap: attr.errorsMap.attr(),
             valueId: can.compute(function () {
               return attr.attr('id');
             })
