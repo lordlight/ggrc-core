@@ -25,15 +25,14 @@
       {{/if}}
       {{#if evidence}}
         <div class="simple-modal__section">
-          <related-documents {instance}="instance" document-type="EVIDENCE">
-              <h6>Evidence</h6>
+            <div class="simple-modal__section-title">Evidence</div>
+            <related-documents {instance}="instance" document-type="EVIDENCE">
               <object-list {items}="documents" {empty-message}="noItemsText">
                   <editable-document-object-list-item {document}="{.}">
                   </editable-document-object-list-item>
               </object-list>
-              <attach-button (refresh-evidences)="loadDocuments()" {instance}="instance">
-              </attach-button>
-          </related-documents>
+                <attach-button (refresh-evidences)="loadDocuments()" {instance}="instance"></attach-button>
+            </related-documents>
         </div>
       {{/if}}
     </div>

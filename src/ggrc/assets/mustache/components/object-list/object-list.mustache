@@ -7,11 +7,9 @@
 {{else}}
   {{#if items.length}}
     {{#each items}}
-        <object-list-item ($click)="modifySelection(%context, %event, $element)">
-            <div class="object-list-item {{#if isSelected}}selected{{/if}}">
-                <content>No item component or template is provided</content>
-            </div>
-        </object-list-item>
+        <div class="object-list-item {{#if isSelected}}selected{{/if}}" ($click)="modifySelection(%context, %event, $element)">
+            <content>No item component or template is provided</content>
+        </div>
     {{/each}}
   {{else}}
       <span class="empty-message">

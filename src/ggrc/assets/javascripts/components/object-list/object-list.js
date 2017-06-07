@@ -94,7 +94,7 @@
       }
     },
     events: {
-      'object-list-item click': function () {
+      '.object-list-item click': function () {
         this.viewModel.attr('isInnerClick', true);
       },
       '{window} click': function () {
