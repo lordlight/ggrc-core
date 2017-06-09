@@ -13,6 +13,7 @@ object-list {
   padding: 0;
   margin: 0;
   display: flex;
+  min-width: 0;
 
   &.object-list__limited-height {
     min-height: 28px;
@@ -52,12 +53,13 @@ object-list {
     }
   }
 
-  object-list-item {
+  .object-list-item {
     line-height: 28px;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     color: $text;
+    min-width: 0;
   }
 }
 object-list {

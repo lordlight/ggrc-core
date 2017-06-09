@@ -3,31 +3,41 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<section class="assessment-module info{{#is_info_pin}} sticky-info-panel assignable{{/is_info_pin}}">
+<section class="assessment-module info info-pane{{#is_info_pin}} sticky-info-panel assignable{{/is_info_pin}}">
   {{#is_info_pin}}
       <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState"
                         on-close="@onClose"></info-pin-buttons>
   {{/is_info_pin}}
     <div class="tier-content">
       {{> '/static/mustache/assessments/header.mustache' }}
-        <div class="assessment-info-pane flex-box">
-            <div class="assessment-attributes flex-size-2">
-                <div class="assessment-description">
-                    <div class="section-title">Test Plan</div>
+        <div class="assessment-info-pane info-pane__body">
+            <div class="assessment-attributes info-pane__main-content info-pane__main-content-with-sidebar">
+                <div class="info-pane__body-section">
+                    <div class="info-pane__section-title">Test Plan</div>
                     <read-more {text}="instance.test_plan"></read-more>
                 </div>
-                <assessment-mapped-controls {instance}="instance"
-                                            {mapped-items}="controls"
-                                            title-text="Controls"
-                                            mapping-type="Control">
-                </assessment-mapped-controls>
-                <div class="assessment-controls">
+                <div class="info-pane__body-section">
+                    <div class="info-pane__section-title">
+                        <action-toolbar class="action-toolbar">
+                            <div class="action-toolbar__content-item">Controls</div>
+                            <div class="action-toolbar__controls">
+                                <action-toolbar-control>
+                                  <add-mapping-button {parent-instance}="instance"></add-mapping-button>
+                                </action-toolbar-control>
+                          </div>
+                        </action-toolbar>
+                    </div>
+                    <assessment-mapped-controls
+                            {instance}="instance"
+                            {mapped-items}="controls"
+                            title-text="Controls"></assessment-mapped-controls>
+                </div>
+                <div class="assessment-controls info-pane__body-section">
                     <div class="assessment-note">
                         <auto-save-form-status
                                 {form-saving}="formState.saving"
                                 {form-all-saved}="formState.allSaved"
-                                {is-dirty}="formState.isDirty"
-                        ></auto-save-form-status>
+                                {is-dirty}="formState.isDirty"></auto-save-form-status>
                         <i class="fa fa-question-circle" rel="tooltip"
                            data-original-title="Respond to assessment here. Use comments on the right for free text responses."></i>
                     </div>
@@ -36,18 +46,65 @@
                             <h6>Evidence</h6>
                             <object-list {items}="evidences" {empty-message}="noItemsText">
                                 <editable-document-object-list-item {document}="{.}">
-                                    <unmap-button
-                                        {destination}="instance"
-                                        {source}="document">
-                                        <action-toolbar-control>
+                                    <action-toolbar-control>
+                                        <unmap-button
+                                            {destination}="instance"
+                                            {source}="document">
+
                                             <i class="fa fa-trash"></i>
-                                        </action-toolbar-control>
-                                    </unmap-button>
+                                        </unmap-button>
+                                    </action-toolbar-control>
                                 </editable-document-object-list-item>
                             </object-list>
                             <attach-button {instance}="instance"></attach-button>
                         </div>
-                        <assessment-urls-list {mapped-items}="urls"></assessment-urls-list>
+                        <div>
+                            <h6>URL</h6>
+                            <object-list {items}="urls" {empty-message}="noItemsText">
+                                <editable-document-object-list-item {document}="{.}">
+                                    <action-toolbar-control>
+                                      <unmap-button
+                                            {destination}="instance"
+                                            {source}="document">
+                                            <i class="fa fa-trash"></i>
+                                      </unmap-button>
+                                    </action-toolbar-control>
+                                </editable-document-object-list-item>
+                            </object-list>
+                          {{#is_allowed 'update' instance context='for'}}
+                            {{#toggle show_new_object_form}}
+                                <ggrc-quick-add
+                                        {parent_instance}="instance"
+                                        join_model="Relationship"
+                                        quick_create="create_url">
+                                  {{#prune_context}}
+                                      <div class="inline-edit inline-edit--active">
+                                          <div class="inline-edit__content">
+                                              <input tabindex="3" type="text" name="instance" placeholder="Add URL">
+                                              <input type="hidden" name="role_name" value="Auditor"/>
+                                              <ul class="inline-edit__controls inline-edit__controls--edit-mode">
+                                                  <li>
+                                                      <a href="javascript://" class="{{#if disabled}}disabled{{/if}}"
+                                                         data-toggle="submit" {{toggle_button 'modal:success'}}>
+                                                          <i class="fa fa-check"></i>
+                                                      </a>
+                                                  </li>
+                                                  <li>
+                                                      <a href="javascript://" {{toggle_button}}>
+                                                          <i class="fa fa-times"></i>
+                                                      </a>
+                                                  </li>
+                                              </ul>
+                                          </div>
+                                      </div>
+                                  {{/prune_context}}
+                                </ggrc-quick-add>
+                            {{else}}
+                                <button class="btn btn-small btn-gray" {{toggle_button}}>Add</button>
+                            {{/toggle}}
+                          {{/is_allowed}}
+                        </div>
+                        <!--<assessment-urls-list {mapped-items}="urls"></assessment-urls-list>-->
                     </div>
                     <auto-save-form {fields}="formFields"
                                     {edit-mode}="editMode"
@@ -59,11 +116,12 @@
                                     {^form-saved-deferred}="formState.formSavedDeferred"
                                     {^is-dirty}="formState.isDirty"
                                     {^has-validation-errors}="instance.hasValidationErrors"
-                                    {evidence-amount}="instance.documents.length"
+                                    {evidence-amount}="evidences.length"
                                     (validation-changed)="showRequiredInfoModal(%event)"
                     ></auto-save-form>
-                  <!-- Modal Window to fix validation issues of CA fields -->
-                    <simple-modal {(state)}="modal.state" {modal-title}="modal.modalTitle" {instance}="instance" {formState}="formState">
+                    <!-- Modal Window to fix validation issues of CA fields -->
+                    <simple-modal {(state)}="modal.state" {modal-title}="modal.modalTitle" {instance}="instance"
+                                  {formState}="formState">
                         <ca-object-modal-content {instance}="instance"
                                                  {(content)}="modal.content"
                                                  {(state)}="state"
@@ -71,7 +129,7 @@
                                                  {form-saved-deferred}="formState.formSavedDeferred"
                         ></ca-object-modal-content>
                     </simple-modal>
-                  <!-- End of Modal Window -->
+                    <!-- End of Modal Window -->
                     <assessment-controls-toolbar class="assessment-controls-toolbar"
                                                  {instance}="instance"
                                                  {form-state}="formState"
@@ -79,19 +137,29 @@
                                                  (on-state-change)="onStateChange(%event)"
                     ></assessment-controls-toolbar>
                 </div>
-                <assessment-mapped-related-information
-                        {instance}="instance"
-                        {mapped-items}="relatedInformation"
-                        title-text="Related Information"
-                        mapping-type="Control">
-                </assessment-mapped-related-information>
+                <div class="info-pane__body-section">
+                    <div class="info-pane__section-title">
+                       <action-toolbar class="action-toolbar">
+                          <div class="action-toolbar__content-item">Related Information</div>
+                          <div class="action-toolbar__controls">
+                            <action-toolbar-control>
+                                <add-mapping-button {parent-instance}="instance"></add-mapping-button>
+                            </action-toolbar-control>
+                          </div>
+                        </action-toolbar>
+                    </div>
+                    <assessment-mapped-related-information
+                            {instance}="instance"
+                            {mapped-items}="relatedInformation"
+                            title-text="Related Information"></assessment-mapped-related-information>
+                </div>
             </div>
-            <div class="assessment-comments flex-size-1">
-                <div class="section-title">Responses/Comments</div>
+            <div class="assessment-comments info-pane__sidebar">
+                <div class="info-pane__section-title">Responses/Comments</div>
               {{^if_in instance.status 'Completed,Final'}}
                 {{#is_allowed 'update' instance context='for'}}
                     <comment-add-form class="comment-add-form"
-                                            {instance}="instance"
+                                      {instance}="instance"
                     ></comment-add-form>
                 {{/is_allowed}}
               {{/if_in}}
@@ -108,10 +176,10 @@
                         <collapsible-panel title-text="People" title-icon="fa-users" class="details-item">
                             <people-list {instance}="instance" editable="true" disable-title="true"></people-list>
                             <access-control-list
-                                instance="instance"
-                                autosave="true"
-                                top-wrapper-class="'body-inner'"
-                                role-block-class="'span3'">
+                                    instance="instance"
+                                    autosave="true"
+                                    top-wrapper-class="'body-inner'"
+                                    role-block-class="'span3'">
                             </access-control-list>
                         </collapsible-panel>
                         <collapsible-panel title-text="Dates" title-icon="fa-calendar" class="details-item">
@@ -181,7 +249,8 @@
                   {{> '/static/mustache/assessments/related-assessments.mustache' }}
                 </tab-panel>
                 <tab-panel {(panels)}="panels" title-text="Related Issues">
-                  <related-issues {base-instance}="instance" {all-related-snapshots}="mappedSnapshots"></related-issues>
+                    <related-issues {base-instance}="instance"
+                                    {all-related-snapshots}="mappedSnapshots"></related-issues>
                 </tab-panel>
             </tab-container>
         </div>

@@ -2,23 +2,6 @@
     Copyright (C) 2017 Google Inc., authors, and contributors
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
-<div class="section-title">
-  {{titleText}}
-  {{#is_allowed 'update' instance context='for'}}
-      <i class="fa fa-plus-circle"
-         rel="tooltip"
-         data-type="{{mappingType}}"
-         data-placement="right"
-         data-toggle="unified-mapper"
-         data-join-mapping="related_objects"
-         data-join-option-type="{{model.shortName}}"
-         data-join-object-id="{{instance.id}}"
-         data-join-object-type="{{instance.class.shortName}}"
-         data-original-title="Map {{firstnonempty mappingType 'Object'}} to this {{firstnonempty instance.class.title_singular 'Object'}}"
- >
-      </i>
-  {{/is_allowed}}
-</div>
 <object-list {(selected-item)}="selectedItem" {items}="mappedItems">
     <business-object-list-item {instance}="instance">
         <div class="description">

@@ -1,0 +1,60 @@
+/*
+ * Copyright (C) 2017 Google Inc.
+ * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+ */
+
+.info-pane {
+
+  &__body {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  &__body-section {
+    margin: 0 16px 16px 0;
+  }
+
+  &__section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 28px;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__main-content {
+    padding-bottom: 28px;
+    min-width: 0;
+  }
+
+  &__main-content-with-sidebar {
+    margin-right: 30%;
+    padding-right: 16px;
+  }
+
+  &__sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding-left: 16px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid $border-color;
+
+    &:after {
+      content: '';
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      height: 42px;
+      display: block;
+      position: absolute;
+      background: linear-gradient(to bottom, transparent, white 70%);
+    }
+  }
+}

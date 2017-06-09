@@ -4,51 +4,6 @@
  */
 
 .assessment-info-pane {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
-  position: relative;
-
-  .assessment-attributes {
-    margin-right: 30%;
-    padding-right: 12px;
-    padding-bottom: 28px;
-    min-width: 0; /* fixes known issue with flexboxes and text-overflow */
-
-    assessment-mapped-controls,
-    assessment-mapped-related-information {
-      .fa-plus-circle {
-        opacity: 1;
-        color: $btnGreen;
-
-        &:hover {
-          color: $icon-color-hover;
-        }
-      }
-    }
-  }
-
-  .section-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    font-weight: bold;
-    line-height: 24px;
-    margin: 0 0 4px;
-
-    .fa {
-      color: $icon-color-dark;
-      width: 32px;
-      height: 24px;
-      line-height: 24px;
-      text-align: center;
-      cursor: pointer;
-      margin-left: 8px;
-
-      &:hover {
-        color: $icon-color-hover;
-      }
-    }
-  }
 
   .assessment-description {
     margin: 0 0 12px;
@@ -184,42 +139,6 @@
     }
   }
 
-  .assessment-comments {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    padding-left: 12px;
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid $border-color;
-
-    &:after {
-      content: '';
-      width: 100%;
-      bottom: 0;
-      left: 0;
-      height: 50px;
-      display: block;
-      position: absolute;
-      background: linear-gradient(to bottom, transparent, white 70%);
-    }
-
-    .assessment-comments-add {
-      display: block;
-    }
-
-    mapping-tree-view {
-      overflow-y: auto;
-      padding-bottom: 45px;
-    }
-
-    .side-content {
-      margin: 0;
-    }
-  }
-
   .tabs-wrap {
     margin-top: -28px;
     position: relative;
@@ -237,31 +156,6 @@
           border-bottom: 0;
         }
       }
-    }
-  }
-}
-
-.assessment-custom-attributes {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
-
-  .ql-container {
-    background: #fff;
-  }
-}
-
-.assessment-url-list__add-btn {
-  position: absolute;
-  top: 1px;
-  cursor: pointer;
-  left: 57px;
-
-  .fa {
-    color: $btnGreen;
-
-    &:hover {
-      color: $icon-color-hover;
     }
   }
 }
