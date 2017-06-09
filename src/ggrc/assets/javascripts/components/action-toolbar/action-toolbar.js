@@ -8,16 +8,6 @@
 
   GGRC.Components('actionToolbar', {
     tag: 'action-toolbar',
-    viewModel: {
-      showAction: false
-    },
-    events: {
-      '{this.element} mouseenter': function () {
-        this.viewModel.attr('showAction', true);
-      },
-      '{this.element} mouseleave': function () {
-        this.viewModel.attr('showAction', false);
-      }
-    }
+    viewModel: {}
   });
 })(window.GGRC);

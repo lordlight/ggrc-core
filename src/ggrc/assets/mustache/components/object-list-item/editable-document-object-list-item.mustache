@@ -4,12 +4,12 @@
 }}
 
 <action-toolbar {document}="document" class="action-toolbar">
-    <document-object-list-item {instance}="document"></document-object-list-item>
-    {{#if showAction}}
-      <div class="action-toolbar__controls">
-        {{#is_allowed 'update' instance context='for'}}
+    <div class="action-toolbar__content-item">
+      <document-object-list-item {instance}="document"></document-object-list-item>
+    </div>
+    <div class="action-toolbar__controls">
+      {{#is_allowed 'update' instance context='for'}}
           <content></content>
-        {{/is_allowed}}
-      </div>
-    {{/if}}
+      {{/is_allowed}}
+    </div>
 </action-toolbar>
